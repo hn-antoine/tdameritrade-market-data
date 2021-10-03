@@ -6,6 +6,7 @@
 
 import argparse
 import time
+from dateutil import parser
 from datetime import datetime
 import sys, os, time, json
 import requests
@@ -76,8 +77,8 @@ if __name__ == "__main__":
     logger = logging.getLogger(__name__)    
   
     parse_arguments()
-    start_ms = int(1000*datetime.strptime(args.start + " EDT",  "%Y-%m-%d %H:%M:%S %Z").timestamp())
-    end_ms = int(1000*datetime.strptime(args.end + " EDT",  "%Y-%m-%d %H:%M:%S %Z").timestamp()) if args.end is not None else int(1000*time.time())
+    start_ms = int(1000*parser.parse(args.start + " EDT").timestamp())
+    end_ms = int(1000*parser.parse(args.end + " EDT").timestamp()) if args.end is not None else int(1000*time.time())
     duration_ms = 24*3600*1000
 
     logger.info(f"Retrieving TD Ameritrade Market Data from {args.start} ({start_ms}) to {args.end} ({end_ms})...")
