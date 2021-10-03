@@ -43,8 +43,8 @@ def parse_arguments():
     parser.add_argument('-c', '--config', default='config.json', type=str, required=False, help='config file [default: config.json]')
     parser.add_argument('-e', '--extended-hours', default=False, type=bool, required=False, help='with extended hour data')
     parser.add_argument('-s', '--symbol', default='QQQ', type=str, required=False, help='symbol')
-    parser.add_argument('-S', '--start', default="2020-01-01 00:00:00", type=str, required=False, help='start time in EDT timezone')
-    parser.add_argument('-E', '--end', default=None, type=str, required=False, help='end time in EDT timezone')
+    parser.add_argument('-S', '--start', default="2020-01-01 00:00:00", type=str, required=False, help='start time in ET timezone')
+    parser.add_argument('-E', '--end', default=None, type=str, required=False, help='end time in ET timezone')
     parser.add_argument('-F', '--frequency', default="1", type=int, required=False, help='frequency in minutes')
     parser.add_argument('-k', '--api-key', default="DORAEMON001", type=str, required=True, help='TD Ameritrade api key, c.f. https://developer.tdameritrade.com/price-history/apis')
     args  = parser.parse_args()
@@ -77,8 +77,8 @@ if __name__ == "__main__":
     logger = logging.getLogger(__name__)    
   
     parse_arguments()
-    start_ms = int(1000*parser.parse(args.start + " EDT").timestamp())
-    end_ms = int(1000*parser.parse(args.end + " EDT").timestamp()) if args.end is not None else int(1000*time.time())
+    start_ms = int(1000*parser.parse(args.start + " ET").timestamp())
+    end_ms = int(1000*parser.parse(args.end + " ET").timestamp()) if args.end is not None else int(1000*time.time())
     duration_ms = 24*3600*1000
 
     logger.info(f"Retrieving TD Ameritrade Market Data from {args.start} ({start_ms}) to {args.end} ({end_ms})...")
