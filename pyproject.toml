@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "tdameritrade-market-data"
+version = "0.1.0"
+description = "Get daily price history from TD Aade for further technical analysis"
+authors = ["hn-antoine <91835230+hn-antoine@users.noreply.github.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.6"
+python-json-logger = "^2.0.2"
+colorlog = "^6.4.1"
+requests = "^2.26.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
