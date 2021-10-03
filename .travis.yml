@@ -6,8 +6,7 @@ python:
 
 # command to install dependencies
 install:
-  - pip install poetry
-  - poetry shell
+  - pip install -r requirements.txt
 
 # command to run some tests
 script:
