@@ -6,9 +6,11 @@ python:
 
 # command to install dependencies
 install:
-  - pip install -r requirements.txt
+  - pip install poetry
+  - poetry shell
 
 # command to run some tests
 script:
+  - cd tdameritrade-market-data 
   - python td_get_price_history.py -s SPY -S "$(date --date='0 days ago' +'%Y-%m-%d 00:00:00')" -E "$(date --date='0 days ago' +'%Y-%m-%d 23:59:00')" -e True -k ${TD_API_KEY}
   - tail -1 charts/SPY.jsonl
