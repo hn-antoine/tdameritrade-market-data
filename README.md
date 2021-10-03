@@ -2,3 +2,9 @@
 
 # tdameritrade-market-data
 Get daily price history from TD Ameritrade via unauthenticated api
+
+# Development
+> pip install poetry
+> poetry install
+> poetry shell
+
