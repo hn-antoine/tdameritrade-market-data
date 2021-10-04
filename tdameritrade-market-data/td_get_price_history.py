@@ -7,6 +7,8 @@
 import argparse
 import time
 from dateutil import parser
+from dateutil.tz import gettz
+
 from datetime import datetime
 import sys, os, time, json
 import requests
@@ -77,8 +79,11 @@ if __name__ == "__main__":
     logger = logging.getLogger(__name__)    
   
     parse_arguments()
-    start_ms = int(1000*parser.parse(args.start + " ET").timestamp())
-    end_ms = int(1000*parser.parse(args.end + " ET").timestamp()) if args.end is not None else int(1000*time.time())
+
+    tzinfos = {"ET": gettz("America/New_York")}
+    logger.info(f"Using tzinfos {tzinfos}")
+    start_ms = int(1000*parser.parse(args.start + " ET", tzinfos=tzinfos).timestamp())
+    end_ms = int(1000*parser.parse(args.end + " ET", tzinfos=tzinfos).timestamp()) if args.end is not None else int(1000*time.time())
     duration_ms = 24*3600*1000
 
     logger.info(f"Retrieving TD Ameritrade Market Data from {args.start} ({start_ms}) to {args.end} ({end_ms})...")
