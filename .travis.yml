@@ -24,4 +24,4 @@ after_success:
   - cd datalake-tdameritrade
   - git add ${DAILY_FILE}
   - git -c user.name='hn-antoine' -c user.email='91835230+hn-antoine@users.noreply.github.com' commit -m "add ${DAILY_FILE}" .
-  - if [ "x$TRAVIS_BRANCH" == "xdaily" ]; then git push -f -q; fi
+  - if [ "x$TRAVIS_BRANCH" == "xdaily" -a "$TRAVIS_PYTHON_VERSION" == "3.6" ]; then git push -f -q; fi
