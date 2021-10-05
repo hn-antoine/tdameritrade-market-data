@@ -2,3 +2,4 @@ colorlog
 requests
 python-dateutil
 pytz
+avro

@@ -51,7 +51,7 @@ def parse_arguments():
     parser.add_argument('-k', '--api-key', default="DORAEMON001", type=str, required=True, help='TD Ameritrade api key, c.f. https://developer.tdameritrade.com/price-history/apis')
     args  = parser.parse_args()
 
-def td_get_price_history(fp, symbol, extended, start, end, frequency = 1): 
+def td_get_price_history(symbol, extended, start, end, frequency = 1, fp = None): 
     headers = { 'Content-Type': 'application/x-www-form-urlencoded' }
     data = { 'apikey':'DORAEMON001'}
     params = {
@@ -61,7 +61,6 @@ def td_get_price_history(fp, symbol, extended, start, end, frequency = 1):
         'endDate': end,
         'needExtendedHoursData': extended
     }              
-    time.sleep(1)
     priceHistoryReply = requests.get('https://api.tdameritrade.com/v1/marketdata/{}/pricehistory?apikey={}'.format(symbol, args.api_key), params = params) 
     chart = priceHistoryReply.json()
 
@@ -90,7 +89,8 @@ if __name__ == "__main__":
     os.makedirs("charts", exist_ok=True)
     fp = open('charts/' + args.symbol + '.jsonl', 'w')
     for t in range(start_ms, end_ms, duration_ms):
-        td_get_price_history(fp, args.symbol, args.extended_hours, t, t + duration_ms - 1, args.frequency)
+        td_get_price_history(args.symbol, args.extended_hours, t, t + duration_ms - 1, args.frequency, fp)
+        time.sleep(0.1)
     fp.close()
     logger.info("done")
 

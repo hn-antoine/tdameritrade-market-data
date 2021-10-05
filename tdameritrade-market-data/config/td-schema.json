@@ -1,0 +1,13 @@
+{
+   "type" : "record",
+   "namespace" : "hn.antoine",
+   "name" : "Update",
+   "fields" : [
+      { "name" : "open" , "type" : "double" },
+      { "name" : "high" , "type" : "double" },
+      { "name" : "low" , "type" : "double" },
+      { "name" : "close" , "type" : "double" },
+      { "name" : "volume" , "type" : "int" },
+      { "name" : "datetime" , "type" : "long" }
+   ]
+}
