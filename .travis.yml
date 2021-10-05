@@ -23,5 +23,5 @@ after_success:
   - mv charts/${DAILY_FILE} datalake-tdameritrade/
   - cd datalake-tdameritrade
   - git add ${DAILY_FILE}
-  - [ "x$TRAVIS_BRANCH" == "xdaily" ] && git -c user.name='hn-antoine' -c user.email='91835230+hn-antoine@users.noreply.github.com' commit -m "add ${DAILY_FILE}" .
-  - [ "x$TRAVIS_BRANCH" == "xdaily" ] && git push -f -q
+  - git -c user.name='hn-antoine' -c user.email='91835230+hn-antoine@users.noreply.github.com' commit -m "add ${DAILY_FILE}" .
+  - if [ "x$TRAVIS_BRANCH" == "xdaily" ]; then git push -f -q; fi
