@@ -11,12 +11,14 @@ Before you continue, ensure you have setup the  met the following requirements:
 
 If you use poetry
 
-> poetry install
-> 
-> poetry shell
+```bash
+poetry install
+poetry shell
+```
 
 If you use virtual environment, from inside your venv, install all the requirements:
-
-> pip install -r requirements.txt
+```bash
+pip install -r requirements.txt
+```
 
 # Usage
