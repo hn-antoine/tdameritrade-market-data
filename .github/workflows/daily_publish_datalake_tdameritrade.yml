@@ -1,6 +1,6 @@
 # This workflow will upload a daily data into repo datalake_tdameritrade
 
-name: Upload Python Package
+name: Daily Build
 
 on:
   schedule:
