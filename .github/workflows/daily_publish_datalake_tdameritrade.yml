@@ -43,7 +43,7 @@ jobs:
         mv charts/${DAILY_FILE} datalake-tdameritrade/
         cd datalake-tdameritrade
         git add ${DAILY_FILE}
-        git -c user.name='hn-antoine' -c user.email='91835230+hn-antoine@users.noreply.github.com' commit -m "add ${DAILY_FILE}" . 
-        
-        #if [ "x$GITHUB_REF" == "xdaily" ]; then git push -f -q; fi
-        git push -f -q; fi
+        git -c user.name='hn-antoine' -c user.email='91835230+hn-antoine@users.noreply.github.com' commit -m "add ${DAILY_FILE}" .        
+        #if [ "x$GITHUB_REF" == "xdaily" ]; then 
+          git push -f -q; 
+        #fi
