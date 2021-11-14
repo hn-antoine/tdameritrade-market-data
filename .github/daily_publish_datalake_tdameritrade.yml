@@ -1,0 +1,44 @@
+# This workflow will upload a daily data into repo datalake_tdameritrade
+
+name: Upload Python Package
+
+on:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '00 23 * * *'
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    # https://docs.github.com/en/actions/learn-github-actions/environment-variables
+    # env:   
+      
+    steps:
+    - name: setup env variables
+      run: |
+        echo "PARENTDIR=$(pwd)" >> $GITHUB_ENV
+        echo "DAILY_FILE=SPY_$(date --date='1 days ago' +'%Y%m%d').avro" >> $GITHUB_ENV
+        echo "TD_API_KEY=NONE" >> $GITHUB_ENV
+        
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.6'
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt       
+    - name: Build package
+      run: |
+        # cd ${PARENTDIR}/tdameritrade-market-data 
+        python td_get_price_history.py -s SPY -S "$(date --date='1 days ago' +'%Y-%m-%d 00:00:00')" -E "$(date --date='1 days ago' +'%Y-%m-%d 23:59:00')" -e True -k ${TD_API_KEY}
+        avro write --schema=config/td-schema.json --input-type=json -o charts/${DAILY_FILE} charts/SPY.jsonl
+
+    #- name: Publish package
+    #  uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
+    #  with:
+    #    user: __token__
+    #    password: ${{ secrets.PYPI_API_TOKEN }}
