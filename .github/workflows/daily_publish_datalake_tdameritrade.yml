@@ -21,7 +21,6 @@ jobs:
       run: |
         echo "PARENTDIR=$(pwd)" >> $GITHUB_ENV
         echo "DAILY_FILE=SPY_$(date --date='1 days ago' +'%Y%m%d').avro" >> $GITHUB_ENV
-        echo "TD_API_KEY=NONE" >> $GITHUB_ENV
         
     - uses: actions/checkout@v2
     - name: Set up Python
@@ -34,7 +33,7 @@ jobs:
     - name: Build package
       run: |
         cd tdameritrade-market-data 
-        python td_get_price_history.py -s SPY -S "$(date --date='1 days ago' +'%Y-%m-%d 00:00:00')" -E "$(date --date='1 days ago' +'%Y-%m-%d 23:59:00')" -e True -k ${TD_API_KEY}
+        python td_get_price_history.py -s SPY -S "$(date --date='1 days ago' +'%Y-%m-%d 00:00:00')" -E "$(date --date='1 days ago' +'%Y-%m-%d 23:59:00')" -e True -k ${{secrets.TD_API_KEY}}
         avro write --schema=config/td-schema.json --input-type=json -o charts/${DAILY_FILE} charts/SPY.jsonl
 
     #- name: Publish package
