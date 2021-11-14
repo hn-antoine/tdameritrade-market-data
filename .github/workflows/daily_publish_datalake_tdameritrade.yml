@@ -30,15 +30,18 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -r requirements.txt       
-    - name: Build package
+    - name: Download data of previous day
       run: |
         cd tdameritrade-market-data 
-        python td_get_price_history.py -s SPY -S "$(date --date='1 days ago' +'%Y-%m-%d 00:00:00')" -E "$(date --date='1 days ago' +'%Y-%m-%d 23:59:00')" -e True -k ${{ secrets.TD_API_KEY }}
-         
+        python td_get_price_history.py -s SPY -S "$(date --date='1 days ago' +'%Y-%m-%d 00:00:00')" -E "$(date --date='1 days ago' +'%Y-%m-%d 23:59:00')" -e True -k ${{ secrets.TD_API_KEY }}         
         avro write --schema=config/td-schema.json --input-type=json -o charts/${DAILY_FILE} charts/SPY.jsonl
 
-    #- name: Publish package
-    #  uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
-    #  with:
-    #    user: __token__
-    #    password: ${{ secrets.PYPI_API_TOKEN }}
+    - name: Deploy files to datalake_tdameritrade
+      run: |
+        cd ${PARENTDIR}/tdameritrade-market-data
+        git clone -q https://hn-antoine:${GITHUB_TOKEN}@github.com/hn-antoine/datalake-tdameritrade.git
+        mv charts/${DAILY_FILE} datalake-tdameritrade/
+        cd datalake-tdameritrade
+        git add ${DAILY_FILE}
+        git -c user.name='hn-antoine' -c user.email='91835230+hn-antoine@users.noreply.github.com' commit -m "add ${DAILY_FILE}" . 
+        if [ "x$GITHUB_REF" == "xdaily" ]; then git push -f -q; fi
