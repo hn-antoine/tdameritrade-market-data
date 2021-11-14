@@ -33,7 +33,7 @@ jobs:
         pip install -r requirements.txt       
     - name: Build package
       run: |
-        # cd ${PARENTDIR}/tdameritrade-market-data 
+        cd tdameritrade-market-data 
         python td_get_price_history.py -s SPY -S "$(date --date='1 days ago' +'%Y-%m-%d 00:00:00')" -E "$(date --date='1 days ago' +'%Y-%m-%d 23:59:00')" -e True -k ${TD_API_KEY}
         avro write --schema=config/td-schema.json --input-type=json -o charts/${DAILY_FILE} charts/SPY.jsonl
 
